@@ -1,5 +1,6 @@
 package com.hj.w2.calc.todo;
 
+
 import com.hj.w2.calc.todo.dto.TodoDTO;
 import com.hj.w2.calc.todo.service.TodoService;
 import jakarta.servlet.ServletException;
@@ -9,19 +10,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(name = "todoListController", urlPatterns = "/todo/list")
+@WebServlet(name = "todoReadController", urlPatterns = "/todo/read")
 
-public class TodoListController extends HttpServlet {
+public class TodoReadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("/todo/list");
+        System.out.println("/todo/read");
 
-        List<TodoDTO> dtoList = TodoService.INSTANCE.getList();
-
-        req.setAttribute("List", dtoList);
-
-        req.getRequestDispatcher("/WEB-INF/todo/list.jsp").forward(req, resp);
+        Long tno = Long.parseLong(req.getParameter("tno"));
+        TodoDTO dto = TodoService.INSTANCE.get(tno);
+        req.setAttribute("dto", dto);
+        req.getRequestDispatcher("/WEB-INF/todo/read.jsp").forward(req, resp);
     }
 }
